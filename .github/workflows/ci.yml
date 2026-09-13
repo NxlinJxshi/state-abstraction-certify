@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Run tests
+        # pytest exits 5 when zero tests are collected; treat that as a pass
+        run: uv run --with pytest pytest || [ "$?" -eq 5 ]
+
+      - name: Lint
+        run: uv run --with ruff ruff check .
