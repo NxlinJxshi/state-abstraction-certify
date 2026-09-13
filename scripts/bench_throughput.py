@@ -1,5 +1,6 @@
-import time
 import concurrent.futures
+import time
+
 from openai import OpenAI
 
 client = OpenAI(base_url="http://localhost:8000/v1", api_key="not-needed")
